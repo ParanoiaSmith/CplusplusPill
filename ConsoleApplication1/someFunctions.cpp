@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "someFunctions.h"
 #include "class_Human.h"
-
-
+// MACRO preporcessing
 #define Matrix(current_height, current_width)  arr[ (current_width)+(current_height)*(width) ]
 
 /********************************************************
@@ -34,23 +33,14 @@ void typeNotes() {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /********************************************************
 *
-* Call a function by reference
+* Parameters by reference and recursivity, short if
 *
 *********************************************************/
+int recursiveFactorial(int num) { 
+	return (num == 1)? 1 : num * recursiveFactorial(num - 1);
+}
 void infinitySum(int &value) {
 	std::cout << "Hello, please enter two integers: " << std::endl;
 	int firstNumber, secondNumber;
@@ -61,17 +51,10 @@ void infinitySum(int &value) {
 	}
 	//The reference is used as an alias
 	value = 999;
+	
+	std::cout << recursiveFactorial(5) << std::endl;
 	return void();
 }
-
-
-
-
-
-
-
-
-
 
 
 /********************************************************
@@ -165,13 +148,6 @@ void matricesNotes( int* arr ) { // *arr == arr[SIZE] == arr[]
 }
 
 
-
-
-
-
-
-
-
 /********************************************************
 *
 * Struct Notes
@@ -242,16 +218,9 @@ void structNotes() {
 }
 
 
-
-
-
-
-
-
-
 /********************************************************
 *
-* Vector
+* STD containers: Vector
 *
 *********************************************************/
 void vectorNotes() {
@@ -272,12 +241,6 @@ void vectorNotes() {
 	//	std::cout << vec_myvec[i] << std::endl;
 	for (auto y : vec_myVec) std::cout << y << std::endl;
 }
-
-
-
-
-
-
 
 
 /********************************************************
@@ -309,13 +272,6 @@ int whatever(T t, U u) {
 };
 
 
-
-
-
-
-
-
-
 /********************************************************
 *
 * Classes
@@ -337,12 +293,6 @@ void classesNotes() {
 	Human h1; // We can instantiate fathers if not abstract
 	h1.speak(); // Polimorphism
 }
-
-
-
-
-
-
 
 
 /********************************************************
@@ -392,17 +342,6 @@ void ioFilesNotes() {
 		readFromFile.close();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 /********************************************************
