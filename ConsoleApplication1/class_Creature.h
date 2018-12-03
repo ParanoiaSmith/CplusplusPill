@@ -17,6 +17,7 @@ namespace class_creature {
 		void setvolume(int f_volume);
 		float getVolume();
 		virtual void move() = 0; // Pure virtual function
+
 		// Only static functions can acces static (just) static variables
 		static int getNumCreatures() {
 			return sui_numCreatures; // this-> is not allowed

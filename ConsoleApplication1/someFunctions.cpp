@@ -3,6 +3,9 @@
 #include "class_Human.h"
 // MACRO preporcessing
 #define Matrix(current_height, current_width)  arr[ (current_width)+(current_height)*(width) ]
+#define AREA_CIRCLE(radius) (PI * (std::pow(radius, 2)))
+
+
 
 /********************************************************
 *
@@ -28,8 +31,13 @@ void typeNotes() {
 	std::cout << (std::stoi("4a2e")) << std::endl; //String to int -> 4
 	std::cout << (std::stod("4.55555558")) << std::endl; //String to int -> 4
 	std::string s_Age = "";
+	// Another way to cin & cout
 	getline(std::cin, s_Age);
 	printf("You age is: %c \n", s_Age);
+
+	// Global variable, be careful with const (see wiki)
+	extern int i_global;
+	std::cout << i_global << std::endl;
 }
 
 
@@ -228,7 +236,7 @@ void vectorNotes() {
 	vec_RandNums[0] = 42;
 	vec_RandNums.push_back(7);
 	std::cout << "Last index number: " << vec_RandNums[vec_RandNums.size() - 1] << std::endl;
-	std::vector<int> vec_myVec(9);
+	std::vector<int> vec_myVec(15);
 	//std::iota(std::begin(vec_myVec), std::end(vec_myVec), 0);
 	std::srand(time(NULL)); //seed to give rand() randomness
 	std::generate(vec_myVec.begin(), vec_myVec.end(), []() { return std::rand() % 100; } );
@@ -236,10 +244,21 @@ void vectorNotes() {
 	std::sort(vec_myVec.begin(), vec_myVec.end(), [](int x, int y) { return (x < y); });
 	// There are: copy_if, for_each
 
-	// To iterate over a vector, 2 ways...
+	// To iterate over a vector, 3 ways:
 	//for (int i = 0; i < vec_myvec.size(); i++)
 	//	std::cout << vec_myvec[i] << std::endl;
+
 	for (auto y : vec_myVec) std::cout << y << std::endl;
+	std::cout << "\n\n\n\n";
+
+	// With a special pointer
+	std::vector<int>::iterator itr = vec_myVec.begin();
+	advance(itr, 2);
+	std::cout << *itr << "\n";
+	itr = next(itr, 1);			//like advance but returns an iterator
+	std::cout << *itr << "\n";
+	itr = prev(itr, 1);			//like next 
+	std::cout << *itr << "\n";
 }
 
 
@@ -253,16 +272,38 @@ void vectorNotes() {
 template<typename T, typename U>
 int whatever(T t, U u);
 
+// Class template
+template <typename T, typename U>
+class Animal {
+public:
+	T height;
+	U weight;
+	static int numOfPeople;
+	Animal(T h, U w) {
+		height = h, weight = w;
+		numOfPeople++;
+	}
+	void GetData() {
+		std::cout << "Height : " << height <<
+			" and Weight : " << weight << "\n";
+	}
+};
+// Initialization static class members
+template<typename T, typename U> 
+int Animal<T, U>::numOfPeople;
+
 void deductionNotes() {
 	int pipi, caca;
 	pipi = caca = 45;
 	auto copy = caca;
 	whatever<int>(copy, pipi); // or whatever(copy, pipi);
-	
 	// template specialization
 	// template <> 
 	// class mycontainer <char> { ... };
 	// 'class' & 'typename' are equivalent
+
+	Animal<float, double> yo(1.75, 71.8);
+	yo.GetData();
 }
 
 template<typename T, typename U>
@@ -312,30 +353,24 @@ void ioFilesNotes() {
 	// ios::in : Open file for reading
 	// ios::out : Open file for writing
 	// ios::ate : Open writing and move to the end of the file
-	writeToFile.open("test.txt", std::ios_base::out |
-		std::ios_base::trunc);
-
+	writeToFile.open("test.txt", std::ios_base::out | std::ios_base::trunc);
 	if (writeToFile.is_open()) {
 		// You can write with the stream insertion operator
 		writeToFile << "Beginning of File\n";
-
 		// You can write data in a string
 		std::cout << "Enter data to write : ";
 		getline(std::cin, txtToWrite);
 		writeToFile << txtToWrite;
-
 		// Close the file 
 		writeToFile.close();
 	}
+
 	// Open the file for reading
 	readFromFile.open("test.txt", std::ios_base::in);
-
 	if (readFromFile.is_open()) {
-
 		// Read text from file
 		while (readFromFile.good()) {
 			getline(readFromFile, txtFromFile);
-
 			// Print text from file
 			std::cout << txtFromFile << "\n";
 		}
@@ -349,6 +384,16 @@ void ioFilesNotes() {
 * Functions as modules (advanced)
 *
 *********************************************************/
+
+// Compiler replaces the definition of inline 
+// functions at compile time instead of 
+// referring function definition at runtime.
+// All func. of a class are inline implicitly.
+// Bad pract. I/O (cin/cout) in this type of func.
+inline int add2Numbers(int a, int b) {
+	return (a + b);
+}
+
 // An ordinary function, just to manage it
 int multx2( int num ) {
 	return (num*2);
@@ -371,4 +416,71 @@ void functionNotes() {
 
 	// So, Could exist a function that returns a function and needs as param
 	// a vector of functions and a function... and so on
+
+	// Inline function
+	std::cout << add2Numbers(5, 9) << std::endl;
+}
+
+
+
+
+/********************************************************
+*
+* Memory management, allocation & smart pointers
+*
+*********************************************************/
+void memoryNotes() {
+	//// Dynamic memory (HEAP/UP)
+	//// The malloc() function from C, still exists in C++,
+	//// but it is recommended to avoid it. Better 'new' !!!
+	//double *d_Matrix;
+	//d_Matrix = (double *)malloc(m*n * sizeof(double));
+	//// Check if memory was allocated
+	//if (d_Matrix != NULL) {
+	//	// Fill array(Matrix)
+	//	for (int i = 0; i < (m*n); i++) {
+	//		std::cin >> d_Matrix[i];
+	//	}
+	//}
+	//free(d_Matrix);
+
+	// Smart pointers 1 UNIQUE
+	int m, n;
+	m = n = 3; // for example...
+	std::unique_ptr<double[]> d_Matrix( new double[m*n] ); 
+	// Check if memory was allocated
+	if (d_Matrix != NULL) {
+		// Fill array(Matrix)
+		for (int i = 0; i < (m*n); i++) {
+			std::cin >> d_Matrix[i];
+		}
+	}
+
+	// Smart pointers 2 SHARED
+	{ //Scope1
+		std::shared_ptr<Human> e0;
+		{ //Scope2
+			// Unique can't be copyed as std::unique_ptr<int> i_ptrUnique2 = i_ptrUnique; 
+			// because when the ptr dies all ptr must to reference to somewhere
+			//std::unique_ptr<Human> i_ptrUnique = std::make_unique<Human>();
+
+			// Shared ptr maintain a count reference of ptrs. Until the last 
+			// ptr don't die, the value is not free/deleted
+			// They have an overhead for take care of the references
+			std::shared_ptr<Human> i_ptrShared = std::make_shared<Human>();
+
+			// e0 = i_ptrUnique; //ERROR
+			e0 = i_ptrShared;
+		} // Here i_ptrShared dies but the e0 remains. i_ptrUnique dies too
+	} // Here e0 dies and the data in heap is deleted
+
+	// Smart pointers 3 WEAK
+	{
+		// Normally used to maintain an ownership in the main ptr
+		std::weak_ptr<Human> e0;
+		{ 
+			std::shared_ptr<Human> i_ptrShared = std::make_shared<Human>();
+			e0 = i_ptrShared;
+		} // Here i_ptrShared dies and so e0 is weak dies too, the value is deleted.
+	} 
 }

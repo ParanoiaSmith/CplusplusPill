@@ -4,6 +4,7 @@
 
 Human::Human() { 
 	this->str_name = ""; 
+	std::cout << "Human created\n";
 }
 Human::Human(std::string name) {
 	this->str_name = name;

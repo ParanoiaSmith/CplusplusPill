@@ -1,3 +1,5 @@
+#pragma once
+
 void typeNotes();
 void infinitySum( int &value);
 void matricesNotes(int *arr);
@@ -7,3 +9,4 @@ void deductionNotes();
 void classesNotes();
 void ioFilesNotes();
 void functionNotes();
+void memoryNotes();

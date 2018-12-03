@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="Aplicación.cpp" />
     <ClCompile Include="class_Human.cpp" />
+    <ClCompile Include="ExternFunction.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
