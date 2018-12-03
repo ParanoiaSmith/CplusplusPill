@@ -442,7 +442,7 @@ void memoryNotes() {
 	//		std::cin >> d_Matrix[i];
 	//	}
 	//}
-	//free(d_Matrix);
+	//free(d_Matrix); //delete d_Matrix;
 
 	// Smart pointers 1 UNIQUE
 	int m, n;
