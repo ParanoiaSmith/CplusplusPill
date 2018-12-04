@@ -159,7 +159,7 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Aplicación.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="class_Human.cpp" />
     <ClCompile Include="ExternFunction.cpp" />
     <ClCompile Include="pch.cpp">

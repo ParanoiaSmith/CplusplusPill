@@ -16,6 +16,10 @@ Human::Human(std::string name) {
 Human::~Human() {
 	std::cout << "Human removed\n";
 }
+std::string Human::getName()
+{
+	return this->str_name;
+}
 // This method can be overload by derived classes
 void Human::speak() {
 	std::cout << "Hello!" << std::endl;
@@ -24,7 +28,17 @@ void Human::speak() {
 
 
 
+
+
 Person::Person() { this->usi_age = 0; }
+
+// Copy constructor vs assignment operator 
+Person::Person(const Person &obj) {
+	std::cout << "Copy constructor allocated" << std::endl;
+	this->usi_age = obj.usi_age;
+}
+
+
 Person::~Person() {std::cout << "Person killed!\n";}
 int Person::getAge(){return usi_age;}
 void Person::setAge(int age) { usi_age = age; }
@@ -41,6 +55,12 @@ void Person::setAge(int age) { usi_age = age; }
 // Only derived classes that override ALL this type of functions could be 
 // instantiated otherwise it will be a second abstract class
 void Person::speak() { std::cout << "Buenas tardes\n"; } //Polimorphism
+
+// A functor is the () operator overloaded and lets 
+// you create objects which "look like" a function
+void Person::operator()(){
+	std::cout << "I'm not a fuction, i'm an object acting as a function!" << std::endl;
+}
 
 // In a member function declaration or definition, override:
 // 1. Shows the reader of the code that "this is a virtual method, 

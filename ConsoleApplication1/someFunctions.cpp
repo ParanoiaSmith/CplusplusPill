@@ -130,6 +130,11 @@ void printMatrices_int(int* arr, int height, int width) {
 void matricesNotes( int* arr ) { // *arr == arr[SIZE] == arr[]
 
 	// http://www.ntu.edu.sg/home/ehchua/programming/cpp/cp4_pointerreference.html
+	
+	// Be careful:
+	// If the value is destroyed with a destructor or delete, 
+	// the other pointer will have invalid memory direction 
+	// this is called a dangling pointer
 
 	int Age = 24;
 	int *pAge;
@@ -352,19 +357,42 @@ void ioFilesNotes() {
 *********************************************************/
 void classesNotes() {
 	// Could be understood as a struct
-	class Box {
-	public:
-		double volume;
-	} box1;
+	//class Box {
+	//public:
+	//	double volume;
+	//} box1;
 
-	Person p1;
+	Person p1(24);
 	// Functions of the father can be used in sons
 	std::cout << p1 << std::endl;
 	std::cout << p1.getNumCreatures() << std::endl;
 	p1.speak();
 
-	Human h1; // We can instantiate fathers if not abstract
+	Human h1("Javier"); // We can instantiate fathers if not abstract
 	h1.speak(); // Polimorphism
+
+
+
+	// copy constructor vs assignment operator
+	// By default, the compiler generates implicitly a copy constructor
+	// Generating a copy constructor explicitly is a way to force it.
+	// It not makes a reference to the same memory, justs copy it.
+	Human h2;
+	h2 = h1;
+	std::cout << h1.getName() << std::endl;
+	std::cout << h2.getName() << std::endl;
+	h1.~Human();
+	std::cout << h2.getName() << std::endl;
+
+	// With a explicit copy constructor is the same
+	Person p2(p1);
+	std::cout << p2.getAge() << std::endl;
+	std::cout << p1.getAge() << std::endl;
+	p1.~Person();
+	std::cout << p2.getAge() << std::endl;
+
+	// Calling a functor, see Person implementation
+	p1();
 }
 
 
