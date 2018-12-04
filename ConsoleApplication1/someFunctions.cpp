@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "someFunctions.h"
 #include "class_Human.h"
+
 // MACRO preporcessing
 #define Matrix(current_height, current_width)  arr[ (current_width)+(current_height)*(width) ]
 #define AREA_CIRCLE(radius) (PI * (std::pow(radius, 2)))
-
+#define PI 3.1415926
 
 
 /********************************************************
@@ -13,7 +14,7 @@
 *
 *********************************************************/
 void typeNotes() {
-	const double PI = 3.141592;
+	const double E = 2.71828182;
 	bool b_Married = false;
 	char c_MyGrade = 'A';
 	unsigned short int usi_Age = 24;
@@ -24,6 +25,8 @@ void typeNotes() {
 	double d_BigFloat = 9.999999999;
 	long double ld_Pi = 3.141592;
 	auto a_Whatever = true;
+	enum colors { red, blue, yellow, green };
+	colors myFavouriteColor = green; // If cout will show 3
 
 	std::cout << "Min bool " << (std::numeric_limits<unsigned short int>::max)() << std::endl;
 	std::cout << "Min bool " << sizeof(unsigned short int) << std::endl;
@@ -31,13 +34,32 @@ void typeNotes() {
 	std::cout << (std::stoi("4a2e")) << std::endl; //String to int -> 4
 	std::cout << (std::stod("4.55555558")) << std::endl; //String to int -> 4
 	std::string s_Age = "";
+
 	// Another way to cin & cout
 	getline(std::cin, s_Age);
 	printf("You age is: %c \n", s_Age);
 
+
 	// Global variable, be careful with const (see wiki)
 	extern int i_global;
 	std::cout << i_global << std::endl;
+
+
+	// Creating scope 1
+	{
+		int j = 0;
+		{ // Creating scope 2
+			int k = 2;
+		}
+		// At this point k is unaccesible
+	}
+	// At this point j is unaccesible
+
+
+	// Unsing a typedef only creates an alias for a specific type
+	typedef int entero;
+	entero num = 77;
+	std::cout << num << std::endl;
 }
 
 
@@ -50,6 +72,19 @@ int recursiveFactorial(int num) {
 	return (num == 1)? 1 : num * recursiveFactorial(num - 1);
 }
 void infinitySum(int &value) {
+	// When a function is called, There are an overhead of memory because
+	// a copy of variables and elements are stored in other place in the memory
+
+	// It's preferred passing reference value because the program doesn't need 
+	// to make a copy of the variable to return the value of that copy and waste memory
+
+	// Why reference over pointers?
+	// 1. References are generally implemented using pointers
+	// 2. A reference is same object/type, just with a different name  
+	// 3. References can’t be NULL, they are safer to use
+	// 4. A pointer can be re-assigned while reference cannot
+	// 5. Pointers can iterate over an array while reference cannot
+
 	std::cout << "Hello, please enter two integers: " << std::endl;
 	int firstNumber, secondNumber;
 	// This loops breaks when reads not an integer
@@ -57,7 +92,7 @@ void infinitySum(int &value) {
 		std::cout << "The sum is:  " << firstNumber + secondNumber << std::endl;
 		// Short if: (condition) ? (if_true) : (if_false)
 	}
-	//The reference is used as an alias
+	// The reference is used as an alias
 	value = 999;
 	
 	std::cout << recursiveFactorial(5) << std::endl;
@@ -93,6 +128,9 @@ void printMatrices_int(int* arr, int height, int width) {
 	//}
 }
 void matricesNotes( int* arr ) { // *arr == arr[SIZE] == arr[]
+
+	// http://www.ntu.edu.sg/home/ehchua/programming/cpp/cp4_pointerreference.html
+
 	int Age = 24;
 	int *pAge;
 	pAge = &Age; // now pAge has the direction of Age
@@ -164,15 +202,15 @@ void matricesNotes( int* arr ) { // *arr == arr[SIZE] == arr[]
 // enum needs to be defined out of the struct because of the scope
 enum type { mamal, insect, plant };
 struct Creature {
-	//struct is identical to a class except for inheritance, etc...
+	// struct is almost identical to a class compatibility c/c++ using a typedef class struct
 	type e_type;
 	char c_name[50];
 	int i_age;
-	Creature() : i_age(3), x(5) {}   
+	Creature() : i_age(3), x(5) {}  // initialization list
 	Creature(int age, int j) : i_age(age), x(j) {
 		strcpy_s(c_name, "Noa"); e_type = mamal;
 	}
-	~Creature() { std::cout << "Creature dead\n"; } // Lambda function constructor
+	~Creature() { std::cout << "Creature dead\n"; } 
 	void printMe() {
 		std::cout << i_age << std::endl;
 		std::cout << e_type << std::endl;
@@ -194,7 +232,7 @@ struct Dog : Creature {
 	}
 	~Dog() { std::cout << "Dog dead\n"; } 
 
-	// Override 
+	// Overriding form parent
 	void printMe() {
 		std::cout << i_age << std::endl;
 		std::cout << e_type << std::endl;
@@ -206,7 +244,7 @@ void printStruct(Creature *s_creature) {
 	std::cout << (*s_creature).i_age << std::endl;
 	std::cout << s_creature->e_type << std::endl;
 	std::cout << s_creature->c_name << std::endl;
-	// std::cout << s_creature->x << std::endl; // X is inaccesible, It's necessary a 'getter' func
+	// ERR: std::cout << s_creature->x << std::endl; // X is inaccesible, It's necessary a 'getter' func
 }
 void structNotes() {
 	Creature s_creature;
@@ -262,79 +300,6 @@ void vectorNotes() {
 }
 
 
-/********************************************************
-*
-* Deduction Types. Templates & auto type
-*
-*********************************************************/
-// https://davidcapello.com/blog/cpp/lambda-en-cpp/
-// Function template prototype
-template<typename T, typename U>
-int whatever(T t, U u);
-
-// Class template
-template <typename T, typename U>
-class Animal {
-public:
-	T height;
-	U weight;
-	static int numOfPeople;
-	Animal(T h, U w) {
-		height = h, weight = w;
-		numOfPeople++;
-	}
-	void GetData() {
-		std::cout << "Height : " << height <<
-			" and Weight : " << weight << "\n";
-	}
-};
-// Initialization static class members
-template<typename T, typename U> 
-int Animal<T, U>::numOfPeople;
-
-void deductionNotes() {
-	int pipi, caca;
-	pipi = caca = 45;
-	auto copy = caca;
-	whatever<int>(copy, pipi); // or whatever(copy, pipi);
-	// template specialization
-	// template <> 
-	// class mycontainer <char> { ... };
-	// 'class' & 'typename' are equivalent
-
-	Animal<float, double> yo(1.75, 71.8);
-	yo.GetData();
-}
-
-template<typename T, typename U>
-int whatever(T t, U u) {
-	std::cout << t +  u << std::endl;
-	return 0;
-};
-
-
-/********************************************************
-*
-* Classes
-*
-*********************************************************/
-void classesNotes() {
-	// Could be understood as a struct
-	class Box {
-		public:
-			double volume;
-	} box1;
-
-	Person p1;
-	// Functions of the father can be used in sons
-	std::cout << p1 << std::endl;
-	std::cout << p1.getNumCreatures() << std::endl;
-	p1.speak();
-
-	Human h1; // We can instantiate fathers if not abstract
-	h1.speak(); // Polimorphism
-}
-
 
 /********************************************************
 *
@@ -379,12 +344,87 @@ void ioFilesNotes() {
 }
 
 
+
+/********************************************************
+*
+* Classes
+*
+*********************************************************/
+void classesNotes() {
+	// Could be understood as a struct
+	class Box {
+	public:
+		double volume;
+	} box1;
+
+	Person p1;
+	// Functions of the father can be used in sons
+	std::cout << p1 << std::endl;
+	std::cout << p1.getNumCreatures() << std::endl;
+	p1.speak();
+
+	Human h1; // We can instantiate fathers if not abstract
+	h1.speak(); // Polimorphism
+}
+
+
+
+/********************************************************
+*
+* Deduction Types. Templates & auto type
+*
+*********************************************************/
+// Function template prototype
+template<typename T, typename U>
+int whatever(T t, U u);
+
+// Class template
+template <typename T, typename U>
+class Animal {
+public:
+	T height;
+	U weight;
+	static int numOfPeople;
+	Animal(T h, U w) {
+		height = h, weight = w;
+		numOfPeople++;
+	}
+	void GetData() {
+		std::cout << "Height : " << height <<
+		   " and Weight : " << weight << "\n";
+	}
+};
+// Initialization static class members
+template<typename T, typename U> 
+int Animal<T, U>::numOfPeople;
+
+void deductionNotes() {
+	int pipi, caca;
+	pipi = caca = 45;
+	auto copy = caca;
+	whatever<int>(copy, pipi); // or whatever(copy, pipi);
+	// template specialization
+	// template <> 
+	// class mycontainer <char> { ... };
+	// 'class' & 'typename' are equivalent
+
+	Animal<float, double> yo(1.75, 71.8);
+	yo.GetData();
+}
+
+template<typename T, typename U>
+int whatever(T t, U u) {
+	std::cout << t +  u << std::endl;
+	return 0;
+};
+
+
+
 /********************************************************
 *
 * Functions as modules (advanced)
 *
 *********************************************************/
-
 // Compiler replaces the definition of inline 
 // functions at compile time instead of 
 // referring function definition at runtime.
@@ -420,8 +460,6 @@ void functionNotes() {
 	// Inline function
 	std::cout << add2Numbers(5, 9) << std::endl;
 }
-
-
 
 
 /********************************************************

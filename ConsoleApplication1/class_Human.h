@@ -24,7 +24,7 @@ class Person: public Human, public class_creature::Creature {
 		int getAge();
 		void setAge(int);
 		void speak();
-		void move();
+		void move() override;
 	private:
 		unsigned short int usi_age;
 };

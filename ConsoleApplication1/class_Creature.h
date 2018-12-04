@@ -20,7 +20,7 @@ namespace class_creature {
 
 		// Only static functions can acces static (just) static variables
 		static int getNumCreatures() {
-			return sui_numCreatures; // this-> is not allowed
+			return sui_numCreatures; // this-> is not allowed because is static
 		}
 		// Operators overloaded must be inside the namespace, if not: error 
 		friend std::ostream& operator<< (std::ostream &out, Creature &a) {

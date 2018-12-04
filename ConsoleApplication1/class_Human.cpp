@@ -3,6 +3,10 @@
 
 
 Human::Human() { 
+	// THIS keyword it's not required and is usually omitted
+	// It's programmers preference. It's just something to 
+	// distinguish from foreign parameters as'_' (_age)
+
 	this->str_name = ""; 
 	std::cout << "Human created\n";
 }
@@ -24,20 +28,29 @@ Person::Person() { this->usi_age = 0; }
 Person::~Person() {std::cout << "Person killed!\n";}
 int Person::getAge(){return usi_age;}
 void Person::setAge(int age) { usi_age = age; }
+// A virtual function is defined by prototype but it doesn't implement the logic
+// When a class has a virtual function It can be instantiate as an object 
+// and derived classes can be instantiated too. 
+
+// Derived classes can override a virtual function so many classes could have 
+// the same function with different behaviours. This is polimorphism
+
+// BUT if a virtual function ends with "=0" means It's a pure virtual function
+// If a class has at least one pure virtual function it's considered an
+// abstract class, that means it could not be instantiated as an object.
+// Only derived classes that override ALL this type of functions could be 
+// instantiated otherwise it will be a second abstract class
 void Person::speak() { std::cout << "Buenas tardes\n"; } //Polimorphism
-void Person::move() { std::cout << "I'm walking on sunshine!\n"; }
+
+// In a member function declaration or definition, override:
+// 1. Shows the reader of the code that "this is a virtual method, 
+//	  that is overriding a virtual method of the base class
+// 2. Indicate the compiler to knows that it's an override, so it can "check" 
+//	  that you are not altering/adding new methods that you think are overrides
+// INT Person::move() override {} will cause an error 
+void Person::move() { std::cout << "I'm walking on sunshine!\n"; } // See its prototype
 
 
-// Cuando una clase implementa una función virtual, se puede instanciar la 
-// clase y las clases hijo pueden sobreescribir el método. Polimorfismo.
 
-// Una clase que contiene al menos una función pura virtual (con el =0) 
-// se considera una clase abstracta. Ya no se pueden instanciar objetos.
-// Las clases derivadas de la clase abstracta deben implementar la 
-// función virtual pura o deben ser también clases abstractas.
-// You should use override to force the
-// compiler to check if the base class
-// virtual fucntion is the same as
-// the subclass
 
 
