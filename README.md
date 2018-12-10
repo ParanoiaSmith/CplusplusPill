@@ -1,6 +1,9 @@
 # Condensed-Cplusplus
 * Some tricks and tips to follow for when I forgot C++
-* Learning C++ is like the fletcher's paradox, It takes an eternity to learn all concepts and the learning seems motionless. So, in the TODO list I'm appending all the pending topics, maybe there will be a 2nd repo. 
+* Learning C++ is like the fletcher's paradox, It takes <br/>
+  an eternity to learn all concepts and the learning <br/>
+  seems motionless. So, in the TODO list I'm appending <br/>
+  all the pending topics, maybe there will be a 2nd repo. 
 
 
 ## Main function deals with this topics:
@@ -13,14 +16,14 @@
 5. HANDLE ERROR & EXCEPTIONS 
 6. TYPE VARIABLES AND ITS SIZE
 7. STD::STRING
-8. EXTERN[^1], GLOBAL VARIABLES
+8. EXTERN __*__ , GLOBAL VARIABLES
 9. SCOPES WITH { }
 10. TYPEDEF, CREATING AN ALIAS
 
 11. FUNCTION REFERENCE ARGUMENTS
 12. RECURSIVE FUNCTION
 13. SHORT IF
-14. PROTOTYPE FUNCTION / HEADERS[^1]
+14. PROTOTYPE FUNCTION / HEADERS __*__
 
 15. N-DIMENSIONAL ARRAYS
 16. POINTERS
@@ -58,4 +61,4 @@
 42. DYNAMIC MEMORY
 43. SMART POINTERS
 
-[^1]See internal and external linkage
+### __*__ See internal and external linkage
